@@ -14,7 +14,7 @@ import (
 )
 
 // MentorApiService is a service that implents the logic for the MentorApiServicer
-// This service should implement the business logic for every endpoint for the MentorApi API. 
+// This service should implement the business logic for every endpoint for the MentorApi API.
 // Include any external packages or services that will be required by this service.
 type MentorApiService struct {
 }
@@ -35,7 +35,74 @@ func (s *MentorApiService) GetMentorByMentorId(mentorId string) (interface{}, er
 func (s *MentorApiService) GetMentors() (interface{}, error) {
 	// TODO - update GetMentors with the required logic for this service method.
 	// Add api_mentor_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return nil, errors.New("service method 'GetMentors' not implemented")
+	mentors := []Mentor{
+		{
+		Id: 1,
+		Username: "Kazuki",
+		Email: "kazuki@gmail.com",
+		Image: "https://placehold.jp/150x150.png",
+		ClickCount: 0,
+		Destination: "アメリカ",
+		EduOrg: "Reading High School",
+		Term: "半年〜1年",
+		Type: []string {
+		  "高校留学",
+		  "交換留学",
+		  "ホームステイ",
+		},
+		Price: 100,
+	  },
+	  {
+		Id: 2,
+		Username: "Eren",
+		Email: "eren@gmail.com",
+		Image: "https://placehold.jp/150x150.png",
+		ClickCount: 0,
+		Destination: "イギリス",
+		EduOrg: "University of Oxford",
+		Term: "4年",
+		Type: []string {
+		  "大学留学",
+		  "私費留学",
+		  "寮",
+		},
+		Price: 3000,
+	  },
+	  {
+		Id: 3,
+		Username: "Armin",
+		Email: "armin@gmail.com",
+		Image: "https://placehold.jp/150x150.png",
+		ClickCount: 0,
+		Destination: "デンマーク",
+		EduOrg: "University of Copenhagen",
+		Term: "半年〜1年",
+		Type: []string {
+		  "大学留学",
+		  "交換留学",
+		},
+		Price: 2500,
+	  },
+	  {
+		Id: 4,
+		Username: "Mikasa",
+		Email: "mikasa@gmail.com",
+		Image: "https://placehold.jp/150x150.png",
+		ClickCount: 0,
+		Destination: "アメリカ",
+		EduOrg: "University of California, Los Angeles",
+		Term: "半年〜1年",
+		Type: []string {
+		  "大学留学",
+		  "交換留学",
+		  "寮",
+		  "奨学金利用",
+		},
+		Price: 2000,
+	  },
+	}
+	return mentors, nil
+	// return nil, errors.New("service method 'GetMentors' not implemented")
 }
 
 // PatchMentorMentorId - Update mentor&#39;s information
