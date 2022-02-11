@@ -12,12 +12,19 @@ package openapi
 import (
 	"errors"
 	"log"
+
+	"gorm.io/gorm"
 )
 
 // MentorApiService is a service that implents the logic for the MentorApiServicer
 // This service should implement the business logic for every endpoint for the MentorApi API.
 // Include any external packages or services that will be required by this service.
 type MentorApiService struct {
+}
+
+// for preloading only id and name (to exclude things like createdAt and updatedAt)
+func getOnlyIdAndName(d *gorm.DB) *gorm.DB {
+	return d.Select("id, name")
 }
 
 // NewMentorApiService creates a default api service
@@ -37,7 +44,7 @@ func (s *MentorApiService) GetMentors() (interface{}, error) {
 	// TODO - update GetMentors with the required logic for this service method.
 	// Add api_mentor_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	var mentors []Mentor
-	if err := Db.Preload("Types").Find(&mentors).Error; err != nil {
+	if err := Db.Preload("Term", getOnlyIdAndName).Preload("Types", getOnlyIdAndName).Find(&mentors).Error; err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
