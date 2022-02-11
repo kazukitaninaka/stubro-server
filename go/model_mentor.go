@@ -14,6 +14,7 @@ import "gorm.io/gorm"
 // Mentor - Mentor's information
 type Mentor struct {
 	*gorm.Model
+	ID uint `json:"id"`
 
 	Username string `json:"username"`
 
