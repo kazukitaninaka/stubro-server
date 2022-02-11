@@ -27,9 +27,11 @@ type Mentor struct {
 
 	EduOrg string `json:"eduOrg"`
 
-	Term string `json:"term"`
+	TermID uint `json:"-"`
 
-	Type []Type `json:"type" gorm:"many2many:type_mentors;"`
+	Term Term `json:"term"`
+
+	Types []Type `json:"type" gorm:"many2many:type_mentors;"`
 
 	Price int `json:"price"`
 }

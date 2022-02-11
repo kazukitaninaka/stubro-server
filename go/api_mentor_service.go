@@ -11,6 +11,7 @@ package openapi
 
 import (
 	"errors"
+	"log"
 )
 
 // MentorApiService is a service that implents the logic for the MentorApiServicer
@@ -35,67 +36,10 @@ func (s *MentorApiService) GetMentorByMentorId(mentorId string) (interface{}, er
 func (s *MentorApiService) GetMentors() (interface{}, error) {
 	// TODO - update GetMentors with the required logic for this service method.
 	// Add api_mentor_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	mentors := []Mentor{
-		{
-			Username:    "Kazuki",
-			Email:       "kazuki@gmail.com",
-			Image:       "https://placehold.jp/150x150.png",
-			ClickCount:  0,
-			Destination: "アメリカ",
-			EduOrg:      "Reading High School",
-			Term:        "半年〜1年",
-			Type: []Type{
-				{Name: "高校留学"},
-				{Name: "交換留学"},
-				{Name: "ホームステイ"},
-			},
-			Price: 100,
-		},
-		{
-			Username:    "Eren",
-			Email:       "eren@gmail.com",
-			Image:       "https://placehold.jp/150x150.png",
-			ClickCount:  0,
-			Destination: "イギリス",
-			EduOrg:      "University of Oxford",
-			Term:        "4年",
-			Type: []Type{
-				{Name: "大学留学"},
-				{Name: "私費留学"},
-				{Name: "寮"},
-			},
-			Price: 3000,
-		},
-		{
-			Username:    "Armin",
-			Email:       "armin@gmail.com",
-			Image:       "https://placehold.jp/150x150.png",
-			ClickCount:  0,
-			Destination: "デンマーク",
-			EduOrg:      "University of Copenhagen",
-			Term:        "半年〜1年",
-			Type: []Type{
-				{Name: "大学留学"},
-				{Name: "交換留学"},
-			},
-			Price: 2500,
-		},
-		{
-			Username:    "Mikasa",
-			Email:       "mikasa@gmail.com",
-			Image:       "https://placehold.jp/150x150.png",
-			ClickCount:  0,
-			Destination: "アメリカ",
-			EduOrg:      "University of California, Los Angeles",
-			Term:        "半年〜1年",
-			Type: []Type{
-				{Name: "大学留学"},
-				{Name: "交換留学"},
-				{Name: "寮"},
-				{Name: "奨学金利用"},
-			},
-			Price: 2000,
-		},
+	var mentors []Mentor
+	if err := Db.Preload("Types").Find(&mentors).Error; err != nil {
+		log.Fatal(err)
+		return nil, err
 	}
 	return mentors, nil
 	// return nil, errors.New("service method 'GetMentors' not implemented")
