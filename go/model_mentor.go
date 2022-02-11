@@ -9,10 +9,11 @@
 
 package openapi
 
+import "gorm.io/gorm"
+
 // Mentor - Mentor's information
 type Mentor struct {
-
-	Id float32 `json:"id"`
+	*gorm.Model
 
 	Username string `json:"username"`
 
@@ -20,7 +21,7 @@ type Mentor struct {
 
 	Image string `json:"image,omitempty"`
 
-	ClickCount float32 `json:"clickCount"`
+	ClickCount int `json:"clickCount"`
 
 	Destination string `json:"destination"`
 
@@ -28,7 +29,7 @@ type Mentor struct {
 
 	Term string `json:"term"`
 
-	Type []string `json:"type"`
+	Type []Type `json:"type" gorm:"many2many:type_mentors;"`
 
-	Price float32 `json:"price"`
+	Price int `json:"price"`
 }

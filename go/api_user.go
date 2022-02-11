@@ -11,6 +11,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"strings"
@@ -25,12 +26,12 @@ type UserApiController struct {
 
 // NewUserApiController creates a default api controller
 func NewUserApiController(s UserApiServicer) Router {
-	return &UserApiController{ service: s }
+	return &UserApiController{service: s}
 }
 
 // Routes returns all of the api route for the UserApiController
 func (c *UserApiController) Routes() Routes {
-	return Routes{ 
+	return Routes{
 		{
 			"GetUserByUserId",
 			strings.ToUpper("Get"),
@@ -59,7 +60,7 @@ func (c *UserApiController) Routes() Routes {
 }
 
 // GetUserByUserId - Get User Info by User ID
-func (c *UserApiController) GetUserByUserId(w http.ResponseWriter, r *http.Request) { 
+func (c *UserApiController) GetUserByUserId(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userId, _ := strconv.Atoi(params["userId"])
 	result, err := c.service.GetUserByUserId(userId)
@@ -67,23 +68,23 @@ func (c *UserApiController) GetUserByUserId(w http.ResponseWriter, r *http.Reque
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	EncodeJSONResponse(result, nil, w)
 }
 
 // GetUsers - Get all users
-func (c *UserApiController) GetUsers(w http.ResponseWriter, r *http.Request) { 
+func (c *UserApiController) GetUsers(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.GetUsers()
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	EncodeJSONResponse(result, nil, w)
 }
 
 // PatchUsersUserId - Update User Information
-func (c *UserApiController) PatchUsersUserId(w http.ResponseWriter, r *http.Request) { 
+func (c *UserApiController) PatchUsersUserId(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userId, _ := strconv.Atoi(params["userId"])
 	inlineObject := &InlineObject{}
@@ -91,29 +92,33 @@ func (c *UserApiController) PatchUsersUserId(w http.ResponseWriter, r *http.Requ
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	result, err := c.service.PatchUsersUserId(userId, *inlineObject)
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	EncodeJSONResponse(result, nil, w)
 }
 
 // PostUser - Create New User
-func (c *UserApiController) PostUser(w http.ResponseWriter, r *http.Request) { 
+func (c *UserApiController) PostUser(w http.ResponseWriter, r *http.Request) {
 	inlineObject1 := &InlineObject1{}
+	fmt.Printf("%+v\n", inlineObject1)
 	if err := json.NewDecoder(r.Body).Decode(&inlineObject1); err != nil {
+		fmt.Println("1")
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	result, err := c.service.PostUser(*inlineObject1)
 	if err != nil {
+		fmt.Println("2")
 		w.WriteHeader(500)
 		return
 	}
-	
+	fmt.Println(result)
+
 	EncodeJSONResponse(result, nil, w)
 }

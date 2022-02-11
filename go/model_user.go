@@ -9,14 +9,13 @@
 
 package openapi
 
-// User - 
-type User struct {
+import "gorm.io/gorm"
 
-	Id float32 `json:"id"`
+// User -
+type User struct {
+	*gorm.Model
 
 	Username string `json:"username"`
 
 	Email string `json:"email"`
-
-	SignUpDate string `json:"signUpDate"`
 }

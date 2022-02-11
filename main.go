@@ -14,11 +14,10 @@ import (
 	"net/http"
 
 	openapi "github.com/GIT_USER_ID/GIT_REPO_ID/go"
-	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	
+	openapi.InitDb()
 	log.Printf("Server started")
 
 	ConsultationApiService := openapi.NewConsultationApiService()
