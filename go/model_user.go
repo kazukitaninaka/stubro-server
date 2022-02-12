@@ -14,7 +14,8 @@ import "gorm.io/gorm"
 // User -
 type User struct {
 	*gorm.Model
-
+	ID       uint   `json:"id"`
+	Uid      string `json:"uid"`
 	Username string `json:"username"`
 
 	Email string `json:"email"`

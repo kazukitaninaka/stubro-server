@@ -104,17 +104,14 @@ func (c *UserApiController) PatchUsersUserId(w http.ResponseWriter, r *http.Requ
 
 // PostUser - Create New User
 func (c *UserApiController) PostUser(w http.ResponseWriter, r *http.Request) {
-	inlineObject1 := &InlineObject1{}
-	fmt.Printf("%+v\n", inlineObject1)
-	if err := json.NewDecoder(r.Body).Decode(&inlineObject1); err != nil {
-		fmt.Println("1")
+	user := &User{}
+	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		w.WriteHeader(500)
 		return
 	}
 
-	result, err := c.service.PostUser(*inlineObject1)
+	result, err := c.service.PostUser(*user)
 	if err != nil {
-		fmt.Println("2")
 		w.WriteHeader(500)
 		return
 	}
