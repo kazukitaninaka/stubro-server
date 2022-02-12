@@ -46,11 +46,12 @@ func (s *UserApiService) PatchUsersUserId(userId int, inlineObject InlineObject)
 }
 
 // PostUser - Create New User
-func (s *UserApiService) PostUser(user InlineObject1) (interface{}, error) {
+func (s *UserApiService) PostUser(user User) (interface{}, error) {
 	// TODO - update PostUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	if err := Db.Create(&user).Error; err != nil {
-		return nil, errors.New("service method 'PostUser' not implemented")
+
+	if err := Db.FirstOrCreate(&user, User{Uid: user.Uid}).Error; err != nil {
+		return nil, errors.New("err!")
 	}
-	return "yo", nil
+	return user, nil
 }
