@@ -32,8 +32,11 @@ func (s *ConsultationApiService) GetConsultations(mentorId int, userId int) (int
 }
 
 // PostConsultation - Create a consultation
-func (s *ConsultationApiService) PostConsultation(inlineObject3 InlineObject3) (interface{}, error) {
+func (s *ConsultationApiService) PostConsultation(consultation Consultation) (interface{}, error) {
 	// TODO - update PostConsultation with the required logic for this service method.
 	// Add api_consultation_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return nil, errors.New("service method 'PostConsultation' not implemented")
+	if err := Db.Create(&consultation).Error; err != nil {
+		return nil, errors.New("Something went wrong!")
+	}
+	return consultation, nil
 }

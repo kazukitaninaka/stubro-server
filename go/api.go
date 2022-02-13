@@ -47,7 +47,7 @@ type UserApiRouter interface {
 // and updated with the logic required for the API.
 type ConsultationApiServicer interface {
 	GetConsultations(int, int) (interface{}, error)
-	PostConsultation(InlineObject3) (interface{}, error)
+	PostConsultation(Consultation) (interface{}, error)
 }
 
 // MentorApiServicer defines the api actions for the MentorApi service
@@ -67,6 +67,7 @@ type MentorApiServicer interface {
 // and updated with the logic required for the API.
 type UserApiServicer interface {
 	GetUserByUserId(int) (interface{}, error)
+	GetUserByUid(string) (interface{}, error)
 	GetUsers() (interface{}, error)
 	PatchUsersUserId(int, InlineObject) (interface{}, error)
 	PostUser(User) (interface{}, error)

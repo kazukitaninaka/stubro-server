@@ -9,15 +9,20 @@
 
 package openapi
 
+import "gorm.io/gorm"
+
 type Consultation struct {
+	*gorm.Model
 
-	Id float32 `json:"id,omitempty"`
+	UserID uint `json:"userId"`
 
-	UserId float32 `json:"userId,omitempty"`
+	User User
 
-	MentorId float32 `json:"mentorId,omitempty"`
+	MentorID uint `json:"mentorId"`
 
-	DesirableDate string `json:"desirableDate,omitempty"`
+	Mentor Mentor
 
-	Message string `json:"message,omitempty"`
+	DesirableDate string `json:"desirableDate"`
+
+	Message string `json:"message"`
 }

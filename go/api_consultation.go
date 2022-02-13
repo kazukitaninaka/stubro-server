@@ -11,6 +11,7 @@ package openapi
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -23,12 +24,12 @@ type ConsultationApiController struct {
 
 // NewConsultationApiController creates a default api controller
 func NewConsultationApiController(s ConsultationApiServicer) Router {
-	return &ConsultationApiController{ service: s }
+	return &ConsultationApiController{service: s}
 }
 
 // Routes returns all of the api route for the ConsultationApiController
 func (c *ConsultationApiController) Routes() Routes {
-	return Routes{ 
+	return Routes{
 		{
 			"GetConsultations",
 			strings.ToUpper("Get"),
@@ -45,7 +46,7 @@ func (c *ConsultationApiController) Routes() Routes {
 }
 
 // GetConsultations - Get all consultations
-func (c *ConsultationApiController) GetConsultations(w http.ResponseWriter, r *http.Request) { 
+func (c *ConsultationApiController) GetConsultations(w http.ResponseWriter, r *http.Request) {
 	query := r.URL.Query()
 	mentorId, _ := strconv.Atoi(query.Get("mentorId"))
 	userId, _ := strconv.Atoi(query.Get("userId"))
@@ -54,23 +55,24 @@ func (c *ConsultationApiController) GetConsultations(w http.ResponseWriter, r *h
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	EncodeJSONResponse(result, nil, w)
 }
 
 // PostConsultation - Create a consultation
-func (c *ConsultationApiController) PostConsultation(w http.ResponseWriter, r *http.Request) { 
-	inlineObject3 := &InlineObject3{}
-	if err := json.NewDecoder(r.Body).Decode(&inlineObject3); err != nil {
+func (c *ConsultationApiController) PostConsultation(w http.ResponseWriter, r *http.Request) {
+	consultation := &Consultation{}
+	if err := json.NewDecoder(r.Body).Decode(&consultation); err != nil {
+		log.Fatal(err)
 		w.WriteHeader(500)
 		return
 	}
-	
-	result, err := c.service.PostConsultation(*inlineObject3)
+
+	result, err := c.service.PostConsultation(*consultation)
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	EncodeJSONResponse(result, nil, w)
 }
