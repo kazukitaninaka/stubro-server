@@ -31,6 +31,17 @@ func (s *UserApiService) GetUserByUserId(userId int) (interface{}, error) {
 	return nil, errors.New("service method 'GetUserByUserId' not implemented")
 }
 
+// GetUserByUid - Get User Info by User UID
+func (s *UserApiService) GetUserByUid(userUid string) (interface{}, error) {
+	// TODO - update GetUserByUserId with the required logic for this service method.
+	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+	var user User
+	if err := Db.Where("uid = ?", userUid).First(&user).Error; err != nil {
+		return nil, errors.New("User not found.")
+	}
+	return user, nil
+}
+
 // GetUsers - Get all users
 func (s *UserApiService) GetUsers() (interface{}, error) {
 	// TODO - update GetUsers with the required logic for this service method.

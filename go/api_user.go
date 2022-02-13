@@ -39,6 +39,12 @@ func (c *UserApiController) Routes() Routes {
 			c.GetUserByUserId,
 		},
 		{
+			"GetUserByUid",
+			strings.ToUpper("Get"),
+			"/user/uid/{uid}",
+			c.GetUserByUid,
+		},
+		{
 			"GetUsers",
 			strings.ToUpper("Get"),
 			"/users",
@@ -64,6 +70,19 @@ func (c *UserApiController) GetUserByUserId(w http.ResponseWriter, r *http.Reque
 	params := mux.Vars(r)
 	userId, _ := strconv.Atoi(params["userId"])
 	result, err := c.service.GetUserByUserId(userId)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+
+	EncodeJSONResponse(result, nil, w)
+}
+
+// GetUserByUid - Get User Info by User UID
+func (c *UserApiController) GetUserByUid(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	uid := params["uid"]
+	result, err := c.service.GetUserByUid(uid)
 	if err != nil {
 		w.WriteHeader(500)
 		return
