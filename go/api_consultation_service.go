@@ -11,6 +11,8 @@ package openapi
 
 import (
 	"errors"
+
+	"gorm.io/gorm"
 )
 
 // ConsultationApiService is a service that implents the logic for the ConsultationApiServicer
@@ -25,10 +27,28 @@ func NewConsultationApiService() ConsultationApiServicer {
 }
 
 // GetConsultations - Get all consultations
-func (s *ConsultationApiService) GetConsultations(mentorId int, userId int) (interface{}, error) {
+func (s *ConsultationApiService) GetConsultations(userId int, mentorId int) (interface{}, error) {
 	// TODO - update GetConsultations with the required logic for this service method.
 	// Add api_consultation_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return nil, errors.New("service method 'GetConsultations' not implemented")
+	var consultations []Consultation
+	// Preload("Mentors").Preload("Users").Omit("created_at, updated_at, deleted_at")
+
+	chain := Db.Where("")
+	if userId != 0 {
+		chain.Where("user_id = ?", userId)
+	}
+	if mentorId != 0 {
+		chain.Where("mentor_id = ?", mentorId)
+	}
+
+	if err := chain.Preload("User", func(d *gorm.DB) *gorm.DB {
+		return d.Select("id, username")
+	}).Preload("Mentor", func(d *gorm.DB) *gorm.DB {
+		return d.Select("id, username, price")
+	}).Find(&consultations).Error; err != nil {
+		return nil, errors.New("Not found")
+	}
+	return consultations, nil
 }
 
 // PostConsultation - Create a consultation
