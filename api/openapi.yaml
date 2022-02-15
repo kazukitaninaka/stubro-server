@@ -132,7 +132,7 @@ paths:
       summary: Update User Information
       tags:
       - user
-  /user/uid/{uid} - copy:
+  /user/uid/{uid}:
     get:
       description: Retrieve the information of the user with the matching user ID.
       operationId: get-user-by-uid
