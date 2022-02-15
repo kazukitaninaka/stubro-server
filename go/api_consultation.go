@@ -50,7 +50,7 @@ func (c *ConsultationApiController) GetConsultations(w http.ResponseWriter, r *h
 	query := r.URL.Query()
 	mentorId, _ := strconv.Atoi(query.Get("mentorId"))
 	userId, _ := strconv.Atoi(query.Get("userId"))
-	result, err := c.service.GetConsultations(mentorId, userId)
+	result, err := c.service.GetConsultations(userId, mentorId)
 	if err != nil {
 		w.WriteHeader(500)
 		return
