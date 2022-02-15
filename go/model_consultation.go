@@ -16,11 +16,11 @@ type Consultation struct {
 
 	UserID uint `json:"userId"`
 
-	User User
+	User User `json:"user"`
 
 	MentorID uint `json:"mentorId"`
 
-	Mentor Mentor
+	Mentor Mentor `json:"mentor"`
 
 	DesirableDate string `json:"desirableDate"`
 
