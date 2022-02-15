@@ -53,7 +53,7 @@ func (s *MentorApiService) GetMentors() (interface{}, error) {
 }
 
 // PatchMentorMentorId - Update mentor&#39;s information
-func (s *MentorApiService) PatchMentorMentorId(mentorId string, inlineObject2 InlineObject2) (interface{}, error) {
+func (s *MentorApiService) PatchMentor(mentorId string, inlineObject2 InlineObject2) (interface{}, error) {
 	// TODO - update PatchMentorMentorId with the required logic for this service method.
 	// Add api_mentor_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'PatchMentorMentorId' not implemented")

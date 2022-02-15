@@ -51,7 +51,7 @@ func (c *UserApiController) Routes() Routes {
 			c.GetUsers,
 		},
 		{
-			"PatchUsersUserId",
+			"PatchUser",
 			strings.ToUpper("Patch"),
 			"/user/{userId}",
 			c.PatchUsersUserId,
@@ -106,13 +106,13 @@ func (c *UserApiController) GetUsers(w http.ResponseWriter, r *http.Request) {
 func (c *UserApiController) PatchUsersUserId(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	userId, _ := strconv.Atoi(params["userId"])
-	inlineObject := &InlineObject{}
-	if err := json.NewDecoder(r.Body).Decode(&inlineObject); err != nil {
+	userRequest := &UserRequest{}
+	if err := json.NewDecoder(r.Body).Decode(&userRequest); err != nil {
 		w.WriteHeader(500)
 		return
 	}
 
-	result, err := c.service.PatchUsersUserId(userId, *inlineObject)
+	result, err := c.service.PatchUser(userId, *userRequest)
 	if err != nil {
 		w.WriteHeader(500)
 		return

@@ -10,14 +10,13 @@
 package openapi
 
 type InlineResponse200 struct {
+	UserId int `json:"userId"`
 
-	UserId float32 `json:"userId"`
-
-	MentorId float32 `json:"mentorId"`
+	MentorId int `json:"mentorId"`
 
 	DesirableDate string `json:"desirableDate"`
 
 	Message string `json:"message"`
 
-	Id float32 `json:"id,omitempty"`
+	Id int `json:"id,omitempty"`
 }

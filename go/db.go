@@ -9,17 +9,6 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-type Type struct {
-	*gorm.Model
-	ID   uint   `json:"id" gorm:"primarykey"`
-	Name string `json:"name" gorm:"unique"`
-}
-type Term struct {
-	*gorm.Model
-	ID   uint   `json:"id" gorm:"primarykey"`
-	Name string `json:"name" gorm:"unique"`
-}
-
 type TypeMentor struct {
 	*gorm.Model
 	MentorId uint `json:"mentorId"`
@@ -50,7 +39,7 @@ func InitDb() {
 	// defer db.Close()
 
 	// Auto Migration
-	// Db.AutoMigrate(&Mentor{})
+	// Db.AutoMigrate(&Consultation{})
 
 	// err = Db.SetupJoinTable(&Mentor{}, "Types", &TypeMentor{})
 	// if err != nil {

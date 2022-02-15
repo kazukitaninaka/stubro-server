@@ -10,7 +10,6 @@
 package openapi
 
 type InlineObject2 struct {
-
 	Username string `json:"username"`
 
 	Email string `json:"email"`
@@ -25,5 +24,5 @@ type InlineObject2 struct {
 
 	Type []string `json:"type"`
 
-	Price float32 `json:"price"`
+	Price int `json:"price"`
 }

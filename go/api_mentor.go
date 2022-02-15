@@ -24,12 +24,12 @@ type MentorApiController struct {
 
 // NewMentorApiController creates a default api controller
 func NewMentorApiController(s MentorApiServicer) Router {
-	return &MentorApiController{ service: s }
+	return &MentorApiController{service: s}
 }
 
 // Routes returns all of the api route for the MentorApiController
 func (c *MentorApiController) Routes() Routes {
-	return Routes{ 
+	return Routes{
 		{
 			"GetMentorByMentorId",
 			strings.ToUpper("Get"),
@@ -43,10 +43,10 @@ func (c *MentorApiController) Routes() Routes {
 			c.GetMentors,
 		},
 		{
-			"PatchMentorMentorId",
+			"PatchMentor",
 			strings.ToUpper("Patch"),
 			"/mentor/{mentorId}",
-			c.PatchMentorMentorId,
+			c.PatchMentor,
 		},
 		{
 			"PostMentor",
@@ -58,7 +58,7 @@ func (c *MentorApiController) Routes() Routes {
 }
 
 // GetMentorByMentorId - Get a mentor
-func (c *MentorApiController) GetMentorByMentorId(w http.ResponseWriter, r *http.Request) { 
+func (c *MentorApiController) GetMentorByMentorId(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	mentorId := params["mentorId"]
 	result, err := c.service.GetMentorByMentorId(mentorId)
@@ -66,23 +66,23 @@ func (c *MentorApiController) GetMentorByMentorId(w http.ResponseWriter, r *http
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	EncodeJSONResponse(result, nil, w)
 }
 
 // GetMentors - Get all mentors
-func (c *MentorApiController) GetMentors(w http.ResponseWriter, r *http.Request) { 
+func (c *MentorApiController) GetMentors(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.GetMentors()
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	EncodeJSONResponse(result, nil, w)
 }
 
 // PatchMentorMentorId - Update mentor's information
-func (c *MentorApiController) PatchMentorMentorId(w http.ResponseWriter, r *http.Request) { 
+func (c *MentorApiController) PatchMentor(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	mentorId := params["mentorId"]
 	inlineObject2 := &InlineObject2{}
@@ -90,29 +90,29 @@ func (c *MentorApiController) PatchMentorMentorId(w http.ResponseWriter, r *http
 		w.WriteHeader(500)
 		return
 	}
-	
-	result, err := c.service.PatchMentorMentorId(mentorId, *inlineObject2)
+
+	result, err := c.service.PatchMentor(mentorId, *inlineObject2)
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	EncodeJSONResponse(result, nil, w)
 }
 
 // PostMentor - Add a mentor
-func (c *MentorApiController) PostMentor(w http.ResponseWriter, r *http.Request) { 
+func (c *MentorApiController) PostMentor(w http.ResponseWriter, r *http.Request) {
 	mentor := &Mentor{}
 	if err := json.NewDecoder(r.Body).Decode(&mentor); err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	result, err := c.service.PostMentor(*mentor)
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
+
 	EncodeJSONResponse(result, nil, w)
 }

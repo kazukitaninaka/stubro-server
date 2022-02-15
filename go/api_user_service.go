@@ -28,6 +28,7 @@ func NewUserApiService() UserApiServicer {
 func (s *UserApiService) GetUserByUserId(userId int) (interface{}, error) {
 	// TODO - update GetUserByUserId with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
 	return nil, errors.New("service method 'GetUserByUserId' not implemented")
 }
 
@@ -50,7 +51,7 @@ func (s *UserApiService) GetUsers() (interface{}, error) {
 }
 
 // PatchUsersUserId - Update User Information
-func (s *UserApiService) PatchUsersUserId(userId int, inlineObject InlineObject) (interface{}, error) {
+func (s *UserApiService) PatchUser(userId int, inlineObject UserRequest) (interface{}, error) {
 	// TODO - update PatchUsersUserId with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'PatchUsersUserId' not implemented")

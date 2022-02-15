@@ -23,3 +23,7 @@
 #!docs/README.md
 
 go/api_*.go
+go/model_consultation.go
+go/model_mentor.go
+go/model_user.go
+go/db.go
