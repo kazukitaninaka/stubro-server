@@ -12,7 +12,9 @@ func AuthMiddleware(h http.Handler) http.Handler {
 		idToken := r.Header["Authorization"][0]
 		token, err := config.AuthClient.VerifyIDToken(config.Ctx, idToken)
 		if err != nil {
-			log.Fatalf("error verifying ID token: %v\n", err)
+			log.Printf("error verifying ID token: %v\n", err)
+			w.WriteHeader(401)
+			return
 		}
 		log.Printf("Verified ID token: %v\n", token)
 		h.ServeHTTP(w, r)
