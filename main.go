@@ -13,12 +13,14 @@ import (
 	"log"
 	"net/http"
 
-	openapi "github.com/GIT_USER_ID/GIT_REPO_ID/go"
+	config "github.com/kazukitaninaka/stubro-server/config"
+	openapi "github.com/kazukitaninaka/stubro-server/go"
 )
 
 func main() {
 	openapi.InitDb()
 	log.Printf("Server started")
+	config.InitFirebase()
 
 	ConsultationApiService := openapi.NewConsultationApiService()
 	ConsultationApiController := openapi.NewConsultationApiController(ConsultationApiService)
