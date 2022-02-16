@@ -12,20 +12,22 @@ package openapi
 import (
 	"encoding/json"
 	"errors"
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/gorilla/mux"
+	"github.com/kazukitaninaka/stubro-server/middleware"
 )
 
 // A Route defines the parameters for an api endpoint
 type Route struct {
-	Name		string
-	Method	  string
-	Pattern	 string
+	Name        string
+	Method      string
+	Pattern     string
 	HandlerFunc http.HandlerFunc
 }
 
@@ -39,6 +41,19 @@ type Router interface {
 
 const errMsgRequiredMissing = "required parameter is missing"
 
+var routesNotRequiringAuth = []string{
+	"GetMentors",
+}
+
+func contains(s []string, e string) bool {
+	for _, v := range s {
+		if e == v {
+			return true
+		}
+	}
+	return false
+}
+
 // NewRouter creates a new router for any number of api routers
 func NewRouter(routers ...Router) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
@@ -47,12 +62,22 @@ func NewRouter(routers ...Router) *mux.Router {
 			var handler http.Handler
 			handler = route.HandlerFunc
 			handler = Logger(handler, route.Name)
+			isNotAuthRequired := contains(routesNotRequiringAuth, route.Name)
 
-			router.
-				Methods(route.Method).
-				Path(route.Pattern).
-				Name(route.Name).
-				Handler(handler)
+			if isNotAuthRequired {
+				router.
+					Methods(route.Method).
+					Path(route.Pattern).
+					Name(route.Name).
+					Handler(handler)
+			} else {
+				router.
+					Methods(route.Method).
+					Path(route.Pattern).
+					Name(route.Name).
+					Handler(middleware.AuthMiddleware(handler))
+			}
+
 		}
 	}
 
