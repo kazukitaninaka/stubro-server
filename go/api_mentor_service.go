@@ -22,9 +22,11 @@ import (
 type MentorApiService struct {
 }
 
+const TIMESTAMP = "created_at, updated_at, deleted_at"
+
 // for preloading only id and name (to exclude things like createdAt and updatedAt)
-func excludeUnnecessaryFields(d *gorm.DB) *gorm.DB {
-	return d.Omit("created_at, updated_at, deleted_at")
+func ExcludeTimestamp(d *gorm.DB) *gorm.DB {
+	return d.Omit(TIMESTAMP)
 }
 
 // NewMentorApiService creates a default api service
@@ -44,7 +46,7 @@ func (s *MentorApiService) GetMentors() (interface{}, error) {
 	// TODO - update GetMentors with the required logic for this service method.
 	// Add api_mentor_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	var mentors []Mentor
-	if err := Db.Preload("Term", excludeUnnecessaryFields).Preload("Types", excludeUnnecessaryFields).Omit("created_at, updated_at, deleted_at").Find(&mentors).Error; err != nil {
+	if err := Db.Preload("Term", ExcludeTimestamp).Preload("Types", ExcludeTimestamp).Omit(TIMESTAMP).Find(&mentors).Error; err != nil {
 		log.Fatal(err)
 		return nil, err
 	}

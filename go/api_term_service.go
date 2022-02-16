@@ -29,7 +29,7 @@ func (s *TermApiService) GetTerms() (interface{}, error) {
 	// TODO - update GetTerms with the required logic for this service method.
 	// Add api_term_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	var mentors []Mentor
-	if err := Db.Preload("Term", excludeUnnecessaryFields).Preload("Types", excludeUnnecessaryFields).Omit("created_at, updated_at, deleted_at").Find(&mentors).Error; err != nil {
+	if err := Db.Preload("Term", ExcludeTimestamp).Preload("Types", ExcludeTimestamp).Omit(TIMESTAMP).Find(&mentors).Error; err != nil {
 		log.Fatal(err)
 		return nil, err
 	}
