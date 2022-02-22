@@ -22,22 +22,7 @@ func main() {
 	log.Printf("Server started")
 	config.InitFirebase()
 
-	ConsultationApiService := openapi.NewConsultationApiService()
-	ConsultationApiController := openapi.NewConsultationApiController(ConsultationApiService)
-
-	MentorApiService := openapi.NewMentorApiService()
-	MentorApiController := openapi.NewMentorApiController(MentorApiService)
-
-	TermApiService := openapi.NewTermApiService()
-	TermApiController := openapi.NewTermApiController(TermApiService)
-
-	TypeApiService := openapi.NewTypeApiService()
-	TypeApiController := openapi.NewTypeApiController(TypeApiService)
-
-	UserApiService := openapi.NewUserApiService()
-	UserApiController := openapi.NewUserApiController(UserApiService)
-
-	router := openapi.NewRouter(ConsultationApiController, MentorApiController, TermApiController, TypeApiController, UserApiController)
+	router := openapi.NewRouter(openapi.NewController())
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

@@ -55,7 +55,7 @@ func contains(s []string, e string) bool {
 }
 
 // NewRouter creates a new router for any number of api routers
-func NewRouter(routers ...Router) *mux.Router {
+func NewRouter(routers []Router) *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	for _, api := range routers {
 		for _, route := range api.Routes() {
@@ -82,6 +82,27 @@ func NewRouter(routers ...Router) *mux.Router {
 	}
 
 	return router
+}
+
+func NewController() []Router {
+	ConsultationApiService := NewConsultationApiService()
+	ConsultationApiController := NewConsultationApiController(ConsultationApiService)
+
+	MentorApiService := NewMentorApiService()
+	MentorApiController := NewMentorApiController(MentorApiService)
+
+	TermApiService := NewTermApiService()
+	TermApiController := NewTermApiController(TermApiService)
+
+	TypeApiService := NewTypeApiService()
+	TypeApiController := NewTypeApiController(TypeApiService)
+
+	UserApiService := NewUserApiService()
+	UserApiController := NewUserApiController(UserApiService)
+
+	return []Router{
+		ConsultationApiController, MentorApiController, TermApiController, TypeApiController, UserApiController,
+	}
 }
 
 // EncodeJSONResponse uses the json encoder to write an interface to the http response with an optional status code
