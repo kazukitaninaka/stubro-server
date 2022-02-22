@@ -14,7 +14,7 @@ import (
 	"net/http"
 
 	config "github.com/kazukitaninaka/stubro-server/config"
-	openapi "github.com/kazukitaninaka/stubro-server/go"
+	openapi "github.com/kazukitaninaka/stubro-server/openapi"
 )
 
 func main() {
