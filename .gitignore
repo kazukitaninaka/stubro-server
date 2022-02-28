@@ -1,2 +1,4 @@
 .air.toml
 /tmp
+.env
+firebase_credentials.json
