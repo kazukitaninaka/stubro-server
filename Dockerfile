@@ -1,14 +1,15 @@
-FROM golang:1.10 AS build
-WORKDIR /go/src
-COPY go ./go
-COPY main.go .
+FROM golang:1.17-alpine
 
-ENV CGO_ENABLED=0
-RUN go get -d -v ./...
+RUN mkdir /app
 
-RUN go build -a -installsuffix cgo -o openapi .
+RUN go get \
+    firebase.google.com/go/v4 \
+    github.com/gorilla/mux \
+    google.golang.org/api \
+    gorm.io/driver/mysql \
+    gorm.io/gorm
 
-FROM scratch AS runtime
-COPY --from=build /go/src/openapi ./
-EXPOSE 8080/tcp
-ENTRYPOINT ["./openapi"]
+ADD . /app
+WORKDIR /app
+RUN go build -o main .
+CMD ["/app/main"]
