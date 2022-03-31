@@ -1,6 +1,6 @@
 version: '3'
 services:
-  go:
+  api:
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,11 +13,8 @@ services:
       - 8080:8080
     depends_on:
       - db_test
-    environment:
-      MYSQL_DATABASE: test_db
-      MYSQL_HOST: mysql # 追加!!
-      MYSQL_USER: kazukitaninaka
-      MYSQL_PASSWORD: db-password
+    env_file:
+      - .env
   db_test:
     container_name: mysql
     image: mysql:8.0
