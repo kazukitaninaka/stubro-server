@@ -2,7 +2,6 @@ package openapi
 
 import (
 	"fmt"
-	"log"
 	"os"
 
 	"gorm.io/driver/mysql"
@@ -26,11 +25,14 @@ var Db *gorm.DB
 
 func InitDb() {
 	var err error
-	DSN := os.Getenv("DSN")
-	fmt.Println(DSN)
+	USER := os.Getenv("DB_USERNAME")
+	PASS := os.Getenv("DB_PASSWORD")
+	PROTOCOL := "tcp(" + os.Getenv("DB_HOST") + ":3306)"
+	DBNAME := os.Getenv("DB_NAME")
+	DSN := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?parseTime=true&loc=Asia%2FTokyo"
 	Db, err = gorm.Open(mysql.Open(DSN), &gorm.Config{})
 	if err != nil {
-		log.Fatal("Database connection failed: ", err)
+		fmt.Print("Database connection failed: ", err)
 	} else {
 		fmt.Println("Sucessfully connected to database")
 	}
@@ -51,6 +53,23 @@ func InitDb() {
 }
 
 func seed(d *gorm.DB) {
+	types := []Type{
+		{Name: "ホームステイ"},
+		{Name: "ルームシェア"},
+		{Name: "ワーキングホリデー"},
+		{Name: "一人暮らし"},
+		{Name: "中学留学"},
+		{Name: "交換留学"},
+		{Name: "大学留学"},
+		{Name: "奨学金利用"},
+		{Name: "寮"},
+		{Name: "私費留学"},
+		{Name: "語学留学"},
+		{Name: "高校留学"},
+	}
+	for _, t := range types {
+		d.Create(&t)
+	}
 	terms := []Term{
 		{Name: "〜1週間"},
 		{Name: "1週間〜1ヶ月"},
