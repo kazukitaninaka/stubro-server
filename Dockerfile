@@ -7,7 +7,8 @@ RUN go get \
     github.com/gorilla/mux \
     google.golang.org/api \
     gorm.io/driver/mysql \
-    gorm.io/gorm
+    gorm.io/gorm \
+    github.com/cosmtrek/air
 
 ADD . /app
 WORKDIR /app
