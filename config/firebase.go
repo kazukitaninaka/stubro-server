@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"strings"
 
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
@@ -31,7 +32,7 @@ var credentials = Credentials{
 	Type:                    os.Getenv("TYPE"),
 	ProjectId:               os.Getenv("PROJECT_ID"),
 	PrivateKeyId:            os.Getenv("PRIVATE_KEY_ID"),
-	PrivateKey:              os.Getenv("PRIVATE_KEY"),
+	PrivateKey:              strings.Replace(os.Getenv("PRIVATE_KEY"), `\n`, "\n", -1),
 	ClientEmail:             os.Getenv("CLIENT_EMAIL"),
 	ClientId:                os.Getenv("CLIENT_ID"),
 	AuthUri:                 os.Getenv("AUTH_URI"),
