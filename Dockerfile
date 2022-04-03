@@ -1,16 +1,12 @@
 FROM golang:1.17-alpine
 
 RUN mkdir /app
+WORKDIR /app
 
-RUN go get \
-    firebase.google.com/go/v4 \
-    github.com/gorilla/mux \
-    google.golang.org/api \
-    gorm.io/driver/mysql \
-    gorm.io/gorm \
-    github.com/cosmtrek/air
+ENV GO111MODULE="on"
+COPY go.mod go.sum /app/
+RUN go mod download
 
 ADD . /app
-WORKDIR /app
 RUN go build -o main .
 CMD ["/app/main"]
