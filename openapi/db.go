@@ -29,7 +29,7 @@ func InitDb() {
 	PASS := os.Getenv("DB_PASSWORD")
 	PROTOCOL := "tcp(" + os.Getenv("DB_HOST") + ":3306)"
 	DBNAME := os.Getenv("DB_NAME")
-	DSN := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?parseTime=true&loc=Asia%2FTokyo"
+	DSN := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8&parseTime=true&loc=Asia%2FTokyo"
 	Db, err = gorm.Open(mysql.Open(DSN), &gorm.Config{})
 	if err != nil {
 		fmt.Print("Database connection failed: ", err)
