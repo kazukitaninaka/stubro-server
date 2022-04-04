@@ -12,6 +12,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	config "github.com/kazukitaninaka/stubro-server/config"
 	openapi "github.com/kazukitaninaka/stubro-server/openapi"
@@ -24,5 +25,5 @@ func main() {
 
 	router := openapi.NewRouter(openapi.NewController())
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router))
 }
