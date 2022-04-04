@@ -30,7 +30,7 @@ type Mentor struct {
 
 	TermID uint `json:"-"`
 
-	Term Term `json:"term"`
+	Term Term `json:"term" gorm:"constraint:OnDelete:CASCADE;"`
 
 	Types []Type `json:"type" gorm:"many2many:type_mentors;"`
 

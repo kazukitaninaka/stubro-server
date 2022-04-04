@@ -1,14 +1,12 @@
-FROM golang:1.10 AS build
-WORKDIR /go/src
-COPY go ./go
-COPY main.go .
+FROM golang:1.17-alpine
 
-ENV CGO_ENABLED=0
-RUN go get -d -v ./...
+RUN mkdir /app
+WORKDIR /app
 
-RUN go build -a -installsuffix cgo -o openapi .
+ENV GO111MODULE="on"
+COPY go.mod go.sum /app/
+RUN go mod download
 
-FROM scratch AS runtime
-COPY --from=build /go/src/openapi ./
-EXPOSE 8080/tcp
-ENTRYPOINT ["./openapi"]
+ADD . /app
+RUN go build -o main .
+CMD ["/app/main"]

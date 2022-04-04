@@ -12,9 +12,10 @@ package main
 import (
 	"log"
 	"net/http"
+	"os"
 
 	config "github.com/kazukitaninaka/stubro-server/config"
-	openapi "github.com/kazukitaninaka/stubro-server/go"
+	openapi "github.com/kazukitaninaka/stubro-server/openapi"
 )
 
 func main() {
@@ -22,22 +23,7 @@ func main() {
 	log.Printf("Server started")
 	config.InitFirebase()
 
-	ConsultationApiService := openapi.NewConsultationApiService()
-	ConsultationApiController := openapi.NewConsultationApiController(ConsultationApiService)
+	router := openapi.NewRouter(openapi.NewController())
 
-	MentorApiService := openapi.NewMentorApiService()
-	MentorApiController := openapi.NewMentorApiController(MentorApiService)
-
-	TermApiService := openapi.NewTermApiService()
-	TermApiController := openapi.NewTermApiController(TermApiService)
-
-	TypeApiService := openapi.NewTypeApiService()
-	TypeApiController := openapi.NewTypeApiController(TypeApiService)
-
-	UserApiService := openapi.NewUserApiService()
-	UserApiController := openapi.NewUserApiController(UserApiService)
-
-	router := openapi.NewRouter(ConsultationApiController, MentorApiController, TermApiController, TypeApiController, UserApiController)
-
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router))
 }
