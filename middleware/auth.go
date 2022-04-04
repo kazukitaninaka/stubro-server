@@ -10,10 +10,6 @@ import (
 
 func AuthMiddleware(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// cors
-		CorsMiddleware(w)
-		AllowOptionsMiddleware(w, r)
-
 		idToken := strings.Split(r.Header["Authorization"][0], "Bearer ")[1]
 		token, err := config.AuthClient.VerifyIDToken(config.Ctx, idToken)
 		if err != nil {
