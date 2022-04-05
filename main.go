@@ -14,6 +14,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gorilla/handlers"
 	config "github.com/kazukitaninaka/stubro-server/config"
 	openapi "github.com/kazukitaninaka/stubro-server/openapi"
 )
@@ -25,5 +26,9 @@ func main() {
 
 	router := openapi.NewRouter(openapi.NewController())
 
-	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), router))
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), handlers.CORS(
+		handlers.AllowedMethods([]string{"OPTIONS", "GET", "PUT", "POST", "DELETE"}),
+		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
+		handlers.AllowedOrigins([]string{"http://localhost:3000", "https://www.stubro.net"}),
+	)(router)))
 }

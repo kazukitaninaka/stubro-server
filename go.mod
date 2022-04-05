@@ -6,6 +6,7 @@ require (
 	cloud.google.com/go v0.88.0 // indirect
 	firebase.google.com/go/v4 v4.7.1
 	github.com/golang/snappy v0.0.4 // indirect
+	github.com/gorilla/handlers v1.5.1 // indirect
 	github.com/gorilla/mux v1.7.4
 	golang.org/x/net v0.0.0-20211013171255-e13a2654a71e // indirect
 	golang.org/x/sys v0.0.0-20220209214540-3681064d5158 // indirect
