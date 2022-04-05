@@ -15,6 +15,8 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 // A ConsultationApiController binds http requests to an api service and writes the service results to the http response
@@ -42,6 +44,12 @@ func (c *ConsultationApiController) Routes() Routes {
 			"/consultation",
 			c.PostConsultation,
 		},
+		{
+			"PatchConsultationByUid",
+			strings.ToUpper("Patch"),
+			"/consultation/{uid}",
+			c.PatchConsultationByUid,
+		},
 	}
 }
 
@@ -61,14 +69,37 @@ func (c *ConsultationApiController) GetConsultations(w http.ResponseWriter, r *h
 
 // PostConsultation - Create a consultation
 func (c *ConsultationApiController) PostConsultation(w http.ResponseWriter, r *http.Request) {
-	consultation := &Consultation{}
-	if err := json.NewDecoder(r.Body).Decode(&consultation); err != nil {
+	consultationRequest := &ConsultationRequest{}
+	if err := json.NewDecoder(r.Body).Decode(&consultationRequest); err != nil {
 		log.Fatal(err)
 		w.WriteHeader(500)
 		return
 	}
 
+	consultation := &Consultation{
+		ConsultationRequest: *consultationRequest,
+		IsPaymentDone:       false,
+	}
+
 	result, err := c.service.PostConsultation(*consultation)
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+
+	EncodeJSONResponse(result, nil, w)
+}
+
+func (c *ConsultationApiController) PatchConsultationByUid(w http.ResponseWriter, r *http.Request) {
+	params := mux.Vars(r)
+	uid := params["uid"]
+	PatchIsPaymentDoneRequest := &PatchIsPaymentDoneRequest{}
+	if err := json.NewDecoder(r.Body).Decode(&PatchIsPaymentDoneRequest); err != nil {
+		w.WriteHeader(500)
+		return
+	}
+
+	result, err := c.service.PatchConsultationByUid(uid, *PatchIsPaymentDoneRequest)
 	if err != nil {
 		w.WriteHeader(500)
 		return

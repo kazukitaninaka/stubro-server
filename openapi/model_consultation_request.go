@@ -10,8 +10,6 @@
 package openapi
 
 type ConsultationRequest struct {
-	Id int `json:"id,omitempty"`
-
 	UserId int `json:"userId"`
 
 	MentorId int `json:"mentorId"`
@@ -19,6 +17,14 @@ type ConsultationRequest struct {
 	DesirableDate string `json:"desirableDate"`
 
 	Message string `json:"message"`
+
+	Uid string `json:"uid"`
+}
+
+type PatchIsPaymentDoneRequest struct {
+	Uid string `json:"uid"`
+
+	IsPaymentDone bool `json:"isPaymentDone"`
 }
 
 // AssertConsultationRequestRequired checks if the required fields are not zero-ed
@@ -28,6 +34,7 @@ func AssertConsultationRequestRequired(obj ConsultationRequest) error {
 		"mentorId":      obj.MentorId,
 		"desirableDate": obj.DesirableDate,
 		"message":       obj.Message,
+		"uid":           obj.Uid,
 	}
 	for name, el := range elements {
 		if isZero := IsZeroValue(el); isZero {

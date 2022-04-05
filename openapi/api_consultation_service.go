@@ -56,7 +56,19 @@ func (s *ConsultationApiService) PostConsultation(consultation Consultation) (in
 	// TODO - update PostConsultation with the required logic for this service method.
 	// Add api_consultation_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	if err := Db.Create(&consultation).Error; err != nil {
-		return nil, errors.New("Something went wrong!")
+		return nil, errors.New("Create failed!")
 	}
+	return consultation, nil
+}
+
+func (s *ConsultationApiService) PatchConsultationByUid(uid string, patchIsConsultionDoneRequest PatchIsPaymentDoneRequest) (interface{}, error) {
+	// TODO - update PostConsultation with the required logic for this service method.
+	// Add api_consultation_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
+
+	consultation := &Consultation{}
+	if err := Db.Model(&consultation).Where("uid = ?", uid).Where("is_payment_done = ?", false).Update("is_payment_done", true).Error; err != nil {
+		return nil, errors.New("Update failed!")
+	}
+
 	return consultation, nil
 }

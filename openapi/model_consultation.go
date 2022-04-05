@@ -14,15 +14,11 @@ import "gorm.io/gorm"
 type Consultation struct {
 	*gorm.Model
 
-	UserID uint `json:"userId"`
+	ConsultationRequest
 
 	User User `json:"user"`
 
-	MentorID uint `json:"mentorId"`
-
 	Mentor Mentor `json:"mentor"`
 
-	DesirableDate string `json:"desirableDate"`
-
-	Message string `json:"message"`
+	IsPaymentDone bool `json:"isPaymentDone"`
 }
