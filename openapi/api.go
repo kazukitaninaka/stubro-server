@@ -64,7 +64,7 @@ type UserApiRouter interface {
 type ConsultationApiServicer interface {
 	GetConsultations(int, int) (interface{}, error)
 	PostConsultation(Consultation) (interface{}, error)
-	PatchConsultationByUid(string, PatchIsPaymentDoneRequest) (interface{}, error)
+	PatchConsultationByUid(string, ConsultationRequest) (interface{}, error)
 }
 
 // MentorApiServicer defines the api actions for the MentorApi service

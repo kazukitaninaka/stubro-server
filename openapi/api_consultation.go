@@ -93,13 +93,13 @@ func (c *ConsultationApiController) PostConsultation(w http.ResponseWriter, r *h
 func (c *ConsultationApiController) PatchConsultationByUid(w http.ResponseWriter, r *http.Request) {
 	params := mux.Vars(r)
 	uid := params["uid"]
-	PatchIsPaymentDoneRequest := &PatchIsPaymentDoneRequest{}
-	if err := json.NewDecoder(r.Body).Decode(&PatchIsPaymentDoneRequest); err != nil {
+	consultationRequest := &ConsultationRequest{}
+	if err := json.NewDecoder(r.Body).Decode(&consultationRequest); err != nil {
 		w.WriteHeader(500)
 		return
 	}
 
-	result, err := c.service.PatchConsultationByUid(uid, *PatchIsPaymentDoneRequest)
+	result, err := c.service.PatchConsultationByUid(uid, *consultationRequest)
 	if err != nil {
 		w.WriteHeader(500)
 		return
