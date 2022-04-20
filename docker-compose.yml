@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   api:
     build:
@@ -12,14 +12,15 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - db_test
+      - mysql
     env_file:
       - .env
-  db_test:
-    container_name: mysql
+  mysql:
+    container_name: stubro_mysql
     image: mysql:8.0
     environment:
-      TZ: 'Asia/Tokyo'
+      TZ: "Asia/Tokyo"
+      MYSQL_ROOT_PASSWORD: "db-password"
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - db-data:/var/lib/mysql
