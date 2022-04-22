@@ -17,12 +17,14 @@ services:
     env_file:
       - .env
   mysql:
+    build:
+      context: ./db
     container_name: stubro_mysql
     image: mysql:8.0
     environment:
       TZ: "Asia/Tokyo"
       MYSQL_ROOT_PASSWORD: "db-password"
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     volumes:
       - db-data:/var/lib/mysql
       - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
