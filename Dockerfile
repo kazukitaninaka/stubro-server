@@ -3,7 +3,7 @@ FROM golang:1.17-alpine as dev
 RUN apk update && \
 	apk add curl && \
 	curl -L https://github.com/golang-migrate/migrate/releases/download/v4.11.0/migrate.linux-amd64.tar.gz | tar xvz && \
-	mv ./migrate.linux-amd64 /usr/bin/migrate
+	mv ./migrate.linux-amd64 /bin/migrate
 
 RUN mkdir /app
 WORKDIR /app
